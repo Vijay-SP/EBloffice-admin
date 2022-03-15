@@ -1,0 +1,291 @@
+{% extends 'layout.html' %}
+{% block body %}
+<style>
+    #images {
+
+        display: block;
+    }
+
+    .imageThumb {
+        max-height: 150px;
+        border: 2px solid;
+        margin: 10px 10px 0 0;
+        padding: 1px;
+    }
+
+    .pad {
+        padding: 20px 10px;
+    }
+</style>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Edit Property - {{property['prop_name']}}</h4>
+                        <p class="card-category">Edit the details related to the property.</p>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data" action="/property/{{property['id']}}">
+                            <h4>Property Name</h4>
+                            <div class="row pad">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Name</label>
+                                        <input type="text" name="name" class="form-control"
+                                            value="{{property['prop_name']}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" id="isFeatured"
+                                                name="isFeatured" {{'checked' if property['isFeatured'] else '' }}>
+                                            Feature this property?
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4>Description:</h4>
+                            <div class="row pad">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Description</label>
+                                        <textarea class="form-control" name="description" rows="10"
+                                            required>{{property['desc']}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4>Property Details:</h4>
+                            <div class="row pad">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Price</label>
+                                        <input type="text" name="price" class="form-control"
+                                            value="{{property['details']['price']}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Property Size (Optional)</label>
+                                        <input type="text" name="prop_size" value="{{property['details']['prop_size']}}"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Property Type (Optional)</label>
+                                        <input type="text" name="prop_type" value="{{property['details']['prop_type']}}"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Property Status (Optional)</label>
+                                        <input type="text" name="prop_status"
+                                            value="{{property['details']['prop_status']}}" class="form-control filled">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4>Additional Details:</h4>
+                            <div class="row pad">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">No. of Offices (Optional)</label>
+                                        <input type="number" name="offices"
+                                            value="{{property['additional_details']['offices']}}" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">No. of Meeting Rooms (Optional)</label>
+                                        <input type="number" name="meeting_rooms"
+                                            value="{{property['additional_details']['meeting_rooms']}}"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Private offices (Optional)</label>
+                                        <input type="number" name="private_offices"
+                                            value="{{property['additional_details']['private_offices']}}"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Coworking desks (Optional)</label>
+                                        <input type="number" name="coworking_desks"
+                                            value="{{property['additional_details']['coworking_desks']}}"
+                                            class="form-control filled">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4>Address Details:</h4>
+                            <div class="row pad">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Address</label>
+                                        <input type="text" name="address" value="{{property['address']['address']}}"
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">City</label>
+                                        <input type="text" name="city" value="{{property['address']['city']}}"
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Country</label>
+                                        <input type="text" name="country" value="{{property['address']['country']}}"
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Zip/Postal Code</label>
+                                        <input type="text" name="zip" value="{{property['address']['zip']}}"
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4>Features</h4>
+                            <div class="row pad">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Add Features</label>
+                                        <input type="text" name="features" value="{{property['features'] | join(', ')}}"
+                                            id="features" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">Add comma separated vaues, Eg: "<b>Air Conditining, Meeting
+                                        Rooms,
+                                        WiFi, ...</b>" This field is case sensitive so enter values accordingly.
+                                    (Capital and
+                                    small letters will be displayed as it is)</div>
+                            </div>
+
+                            <h4>Google Maps Link</h4>
+                            <div class="row pad">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">URL</label>
+                                        <input type="text" name="map_url" id="map_url" value="{{property['map_url']}}"
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-info">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <i class="material-icons">close</i>
+                                </button>
+                                <span>
+                                    <b> NOTE - </b>You can add more images related to the property (Property images or
+                                    Floor-plan images), but you cannot remove the already added images. To do so, you
+                                    will have to
+                                    delete this property and add the all listings again.</span>
+                            </div>
+
+                            {% for link in property['img_links'] %}
+                            <img src="{{link}}" class="imageThumb" alt="property-image" />
+                            {% endfor %}
+
+                            <h4>Add more property images</h4>
+                            <div class="row pad">
+                                <div class="col-md-3">
+                                    <input type="file" id="prop-files" name="prop-files[]" accept="image/*" multiple />
+                                    <i>Preffered size 592x444</i>
+                                </div>
+                            </div>
+                            <div id="prop-gallery" class="pad"></div>
+
+                            {% for link in property['floor_plans'] %}
+                            <img src="{{link}}" class="imageThumb" alt="floor-plan-img" />
+                            {% endfor %}
+
+                            <h4>Add more floor plan images</h4>
+                            <div class="row pad">
+                                <div class="col-md-3">
+                                    <input type="file" id="floor-plan-files" accept="image/*" name="floor-plan-files[]"
+                                        multiple />
+                                    <i>Preffered size 592x444</i>
+                                </div>
+                            </div>
+                            <div id="floor-plan-gallery" class="pad"></div>
+
+                            <button type="submit" class="btn btn-primary">
+                                Save Property
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        if (window.File && window.FileList && window.FileReader) {
+            $("#prop-files").on("change", function (e) {
+                $("#prop-gallery").empty();
+                var files = e.target.files,
+                    filesLength = files.length;
+                for (var i = 0; i < filesLength; i++) {
+                    var f = files[i]
+                    var fileReader = new FileReader();
+                    fileReader.onload = (function (e) {
+                        var file = e.target;
+                        $("<img/>", {
+                            class: "imageThumb",
+                            src: e.target.result,
+                            title: file.name
+                        }).appendTo($("#prop-gallery"));
+                    });
+                    fileReader.readAsDataURL(f);
+                }
+            });
+        } else { alert("Your browser doesn't support to File API") }
+    });
+
+    $(document).ready(function () {
+        if (window.File && window.FileList && window.FileReader) {
+            $("#floor-plan-files").on("change", function (e) {
+                $("#floor-plan-gallery").empty();
+                var files = e.target.files,
+                    filesLength = files.length;
+                for (var i = 0; i < filesLength; i++) {
+                    var f = files[i]
+                    var fileReader = new FileReader();
+                    fileReader.onload = (function (e) {
+                        var file = e.target;
+                        $("<img/>", {
+                            class: "imageThumb",
+                            src: e.target.result,
+                            title: file.name
+                        }).appendTo($("#floor-plan-gallery"));
+                    });
+                    fileReader.readAsDataURL(f);
+                }
+            });
+        } else { alert("Your browser doesn't support to File API") }
+    });
+
+</script>
+
+{% endblock %}
